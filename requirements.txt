@@ -1,0 +1,17 @@
+praw
+requests
+pandas
+polars
+numpy
+opencv-python
+Pillow
+tqdm
+torch
+tensorflow
+transformers
+scikit-learn
+sentence-transformers
+matplotlib
+seaborn
+jupyter
+python-dotenv

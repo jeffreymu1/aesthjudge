@@ -1,0 +1,4 @@
+name: dataproj
+channels:
+  - defaults
+prefix: /Users/jmu/miniconda/envs/dataproj
