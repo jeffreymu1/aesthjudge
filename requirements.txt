@@ -15,3 +15,5 @@ matplotlib
 seaborn
 jupyter
 python-dotenv
+opencv-contrib-python
+psaw
