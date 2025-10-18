@@ -8,7 +8,6 @@ from io import BytesIO
 from dotenv import load_dotenv
 from tqdm import tqdm
 import praw
-import pandas as pd
 import numpy as np
 import cv2
 import os
@@ -26,8 +25,8 @@ reddit = praw.Reddit(
     user_agent=user_agent
 )
 
-# scrape both critique subreds
-subreddit = reddit.subreddit("itookapicture")
+# subreddit here
+subreddit = reddit.subreddit("")
 
 # collect here
 collected_data = []
@@ -35,7 +34,7 @@ collected_data = []
 # unload
 collected_data, processed_urls = load_progress()
 
-for sub in tqdm(subreddit.top(limit=100)):
+for sub in tqdm(subreddit.top(time_filter='all', limit=None)):
     try:
         # if processed skip
         if sub.url in processed_urls:
@@ -55,6 +54,9 @@ for sub in tqdm(subreddit.top(limit=100)):
         top_comments = [c.body for c in sub.comments.list() if c.parent_id == c.link_id]
         comments_joined = " ".join(top_comments).strip()
 
+        if not comments_joined:
+            continue
+
         # compute img features
         subj_type, subj_conf = classify_subject_type(img_cv)
         genre, genre_conf = classify_genre(img_cv)
@@ -65,10 +67,6 @@ for sub in tqdm(subreddit.top(limit=100)):
         # compute target var
         scores = [sentiment_score(c) for c in top_comments if len(c.strip()) > 0]
         aesthetic_score = np.mean(scores)
-
-        # skip if only 1 comment
-        if not comments_joined:
-            continue
 
         features = {
             # post metadata
@@ -123,3 +121,15 @@ for sub in tqdm(subreddit.top(limit=100)):
 # final save
 save_progress(collected_data)
 print(f"total posts collected: {len(collected_data)}")
+
+
+'''
+    if method_name == 'top':
+    elif method_name == 'hot':
+    elif method_name == 'new':
+    elif method_name == 'controversial':
+    elif method_name == 'rising':
+
+'day', 'year', 'month', 'hour', 'week', 'all'
+
+'''
