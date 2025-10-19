@@ -17,3 +17,5 @@ jupyter
 python-dotenv
 opencv-contrib-python
 psaw
+nbformat
+sklearn
